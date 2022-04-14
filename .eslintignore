@@ -1,0 +1,6 @@
+node_modules/*
+scripts/*
+dist/*
+config/*
+src/**/*.less
+src/**/*.css
