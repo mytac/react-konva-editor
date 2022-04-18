@@ -1,4 +1,5 @@
 #project
-lib
+dist
 node_modules
 .npmrc
+storage

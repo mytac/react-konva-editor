@@ -1,13 +1,14 @@
 {
   "name": "react-konva-editor",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An image editor which is built by konva and react.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "npm-server":"verdaccio"
   },
   "repository": {
     "type": "git",

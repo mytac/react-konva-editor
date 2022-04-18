@@ -1,9 +1,12 @@
 {
     "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
     "target": "es5",
     "module": "esnext",
-    "outDir": "./lib",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "outDir": "./dist",
+    "declaration": true,
+     "declarationDir": "./types",
+     "esModuleInterop":true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -11,9 +14,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "removeComments": true,
-    "declaration": false,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "typeRoots": [
       "index.d.ts",
       "node_modules/@types"
@@ -24,6 +25,7 @@
     "./src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
