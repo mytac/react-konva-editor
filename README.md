@@ -54,9 +54,13 @@ An image editor which is built by konva and react.
 ## Todos
 序号|内容|完成情况
 -|-|-|
-1|js环境调通|-
+1|js环境调通|√
 2|ts type规范化|-
 3|ts环境调通|-
 4|依赖库配置|-
 5|使用文档|-
 6|线上示例|-
+
+Setup automated build with Travis
+Analyze code-coverage with Codecov
+Add badges to your readme with Shields. Everyone loves badges 😎

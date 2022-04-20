@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { IProps, IFunc } from './type';
-interface ShapePropsNApi extends FC<IProps>, IFunc {
+import { ReactKonvaEditorProps, ReactKonvaEditorEvents } from './type';
+interface ShapePropsNApi extends FC<ReactKonvaEditorProps>, ReactKonvaEditorEvents {
 }
 declare const Shape: ShapePropsNApi;
 export default Shape;

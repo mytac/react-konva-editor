@@ -8,7 +8,7 @@ export interface IaddItem {
   value: string;
 }
 
-export interface IProps {
+export interface ReactKonvaEditorProps {
   width: number;
   height: number;
   backgroundColor?: string;
@@ -25,7 +25,7 @@ export interface IProps {
 }
 
 // 内部的
-export interface IcommonInfo {
+export interface ICommonInfo {
   id: number;
   type: itemType;
   isSelected?: boolean;
@@ -47,12 +47,7 @@ export interface IcommonInfo {
   mType?: number;
   elementName?: string;
 }
-
-type stageInfo={
-  type: 'stage';
-}
-
-export interface IimageInfo extends IcommonInfo {
+export interface IimageInfo extends ICommonInfo {
   type: 'image';
   value: string;
   trRef: any;
@@ -60,12 +55,12 @@ export interface IimageInfo extends IcommonInfo {
   height?: number;
 }
 
-export interface ItextInfo extends IcommonInfo {
+export interface ItextInfo extends ICommonInfo {
   type: 'text';
   value: string;
 }
 
-export interface IFunc {
+export interface ReactKonvaEditorEvents {
   exportToImage: (a: string) => void;
   exportToBASE64: () => Promise<string>;
   exportToFile: (format: string, filename: string) => File | undefined;

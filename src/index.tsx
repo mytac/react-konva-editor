@@ -1,7 +1,7 @@
 import { FC, useState, useRef, useEffect, useCallback } from 'react';
 import { Stage, Layer, Rect, Group } from 'react-konva';
 import Konva from 'konva';
-import { IProps, Iinfo, IaddItem, IFunc, IcommonInfo } from './type';
+import { ReactKonvaEditorProps, Iinfo, IaddItem, ReactKonvaEditorEvents, ICommonInfo } from './type';
 import withTransform from './hoc/withTransform';
 import MyImage from './KonvaImg';
 import MyText from './KonvaText';
@@ -15,7 +15,7 @@ const KonvaText = withTransform(MyText);
 const hotkeyListener = new KeyboardListener();
 let stepCached: circularQueue | undefined;
 
-interface ShapePropsNApi extends FC<IProps>, IFunc {}
+interface ShapePropsNApi extends FC<ReactKonvaEditorProps>, ReactKonvaEditorEvents {}
 
 const outerInstance: any = {
   value: {},
@@ -101,7 +101,7 @@ const Shape: ShapePropsNApi = ({
       Object.keys(selectedItemChange).length &&
       selectedId
     ) {
-      handleSelectItem((item: IcommonInfo | undefined, index = -1) => {
+      handleSelectItem((item: ICommonInfo | undefined, index = -1) => {
         if (item && item.type === 'stage') {
           return;
         }
@@ -161,7 +161,7 @@ const Shape: ShapePropsNApi = ({
   const onRef = useCallback(
     (ref: any) => {
       if (ref) {
-        handleSelectItem((item: IcommonInfo | undefined, index = 0) => {
+        handleSelectItem((item: ICommonInfo | undefined, index = 0) => {
           if (item && item.type === 'stage') {
             return;
           }
@@ -223,7 +223,7 @@ const Shape: ShapePropsNApi = ({
     if (stepCached) {
       setRedo(stepCached.canMoveForward);
       setWithdraw(stepCached.canMoveBack);
-      handleSelectItem((item: IcommonInfo | undefined) => {
+      handleSelectItem((item: ICommonInfo | undefined) => {
         if (item && item.type !== 'stage') {
           onChangeSelected(item);
         }
