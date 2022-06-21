@@ -55,9 +55,9 @@ An image editor which is built by konva and react.
 序号|内容|完成情况
 -|-|-|
 1|js环境调通|√
-2|ts type规范化|-
-3|ts环境调通|-
-4|依赖库配置|-
+2|ts type规范化| delay
+3|ts环境调通| ing
+4|依赖库配置| delay
 5|使用文档|-
 6|线上示例|-
 

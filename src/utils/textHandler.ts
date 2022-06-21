@@ -5,7 +5,7 @@ class SelectChangeListener {
     allWidth: number,
     start: number,
     end: number,
-    total: number
+    total: number,
   ) => void;
   allWidth: number;
   constructor(
@@ -15,9 +15,9 @@ class SelectChangeListener {
       allWidth: number,
       start: number,
       end: number,
-      total: number
+      total: number,
     ) => void,
-    allWidth: number
+    allWidth: number,
   ) {
     this.target = target;
     this.originalText = originalText;
@@ -41,7 +41,7 @@ class SelectChangeListener {
         this.allWidth,
         startIndex,
         startIndex + text.length,
-        content.length
+        content.length,
       );
     }
   };

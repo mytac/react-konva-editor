@@ -59,7 +59,7 @@ const Shape: ShapePropsNApi = ({
         const maxId = infos.reduce(
           (prev, info) =>
             info && info.id ? Math.max(Number(info.id), prev) : prev + 100,
-          0
+          0,
         );
         const newId = maxId ? maxId + 1 : 1000;
         setNewId(newId);
@@ -136,7 +136,7 @@ const Shape: ShapePropsNApi = ({
   }, [selectedItemChange]); // 更改选中元素的属性
 
   const handleSelectItem = useCallback(
-    (cb = (a: Iinfo | undefined) => {}) => {
+    (cb = (a: any, b?: any) => {}) => {
       if (selectedId === -1) {
         // stage
         const item = { type: 'stage' };
@@ -153,7 +153,7 @@ const Shape: ShapePropsNApi = ({
         }
       }
     },
-    [selectedId, steps]
+    [selectedId, steps],
   );
 
   const onRef = useCallback(
@@ -176,7 +176,7 @@ const Shape: ShapePropsNApi = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bindRef, handleSelectItem, steps]
+    [bindRef, handleSelectItem, steps],
   );
 
   useEffect(() => {
@@ -318,7 +318,7 @@ const Shape: ShapePropsNApi = ({
         }
       });
     },
-    [handleSelectItem, steps]
+    [handleSelectItem, steps],
   );
 
   useEffect(() => {
@@ -399,7 +399,7 @@ const Shape: ShapePropsNApi = ({
                     />
                   )}
                 </Group>
-              ) : null
+              ) : null,
             )}
         </Layer>
       </Stage>

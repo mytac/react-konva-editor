@@ -23,7 +23,7 @@ const KonvaText: FC<ItextInfo> = ({
     allWidth: number,
     a: number,
     b: number,
-    total: number
+    total: number,
   ) => {
     console.log('allWidth', allWidth);
     // const EveryWidth = allWidth / total;
@@ -101,7 +101,7 @@ const KonvaText: FC<ItextInfo> = ({
       textarea,
       originalText,
       changeGardient,
-      realWidth
+      realWidth,
     );
     //@ts-ignore
     textarea.style.fontSize = transformedFontSize + 'px';
@@ -175,7 +175,7 @@ const KonvaText: FC<ItextInfo> = ({
         }
         // some extra fixes on different browsers
         const isSafari = /^((?!chrome|android).)*safari/i.test(
-          navigator.userAgent
+          navigator.userAgent,
         );
         const isFirefox =
           navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
