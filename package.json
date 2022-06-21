@@ -7,10 +7,10 @@
   "types": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "./build.sh",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --fix --ext .js,.ts,jsx,tsx src",
-    "npm-server": "verdaccio"
+    "dev-release": "./publish.sh"
   },
   "repository": {
     "type": "git",
