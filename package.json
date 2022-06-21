@@ -10,7 +10,8 @@
     "build": "./build.sh",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --fix --ext .js,.ts,jsx,tsx src",
-    "dev-release": "./publish.sh"
+    "dev-release": "./publish.sh",
+    "npm-server": "verdaccio"
   },
   "repository": {
     "type": "git",
