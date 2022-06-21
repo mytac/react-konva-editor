@@ -18,6 +18,8 @@ const KonvaImage: FC<IimageInfo> = ({
   trRef,
   isNew,
   isSelected,
+  _isAdaptStage,
+  _isProportionalScaling,
   ...props
 }) => {
   const [oldSize, setOldSize] = useState<null | {
@@ -36,11 +38,11 @@ const KonvaImage: FC<IimageInfo> = ({
 
   useEffect(() => {
     // 直接替换，等比缩放
-    if (isSelected && !isNew) {
+    if (isSelected && (_isProportionalScaling || !isNew)) {
       /// adapt image-replacement
-      const _isProportionalScaling = // 是否等比缩放
-        myRef?.current?.attrs?._isProportionalScaling;
-      if (_isProportionalScaling && image && oldSize) {
+      const _isP = // 是否等比缩放
+        myRef?.current?.attrs?._isProportionalScaling || _isProportionalScaling;
+      if (_isP && image && oldSize) {
         // 替换模式
         const item = AdaptStrategy.adaptReplaceImage(image, oldSize);
         if (item) {
@@ -51,7 +53,7 @@ const KonvaImage: FC<IimageInfo> = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image, myRef, isNew, trRef.current, isSelected]);
+  }, [image, myRef, isNew, trRef.current, isSelected, _isProportionalScaling]);
 
   useEffect(() => {
     if (isSelected) {
@@ -69,11 +71,9 @@ const KonvaImage: FC<IimageInfo> = ({
   }, [isSelected, prevMarkerRef]);
 
   useEffect(() => {
-    const _isAdaptStage = myRef?.current?.attrs?._isAdaptStage; // 是否等比缩放
     if (image && stageRef && stageRef.current && isNew && _isAdaptStage) {
       // 适配新元素与舞台
       const item = AdaptStrategy.adaptNewImage(image, stageRef.current);
-      console.log('useeffect3', item);
       if (item) {
         handleInfo({
           ...item,
@@ -85,7 +85,7 @@ const KonvaImage: FC<IimageInfo> = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image, stageRef, isNew, trRef]);
+  }, [image, stageRef, isNew, trRef, _isAdaptStage]);
 
   // 适配图片宽度
   useEffect(() => {

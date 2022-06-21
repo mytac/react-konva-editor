@@ -1,3 +1,3 @@
-import Editor from './src'
+import Editor from './src/index';
 
-export default Editor
+export default Editor;

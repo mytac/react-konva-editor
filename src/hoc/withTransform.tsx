@@ -30,6 +30,7 @@ const withTransform = (Component: FC) => {
       const transformer = trRef.current;
       if (isSelected && eleRef?.current && transformer) {
         if (props?.type === 'text') {
+          // @ts-ignore
           transformer.nodes([eleRef.current]);
           transformer.getLayer()?.batchDraw();
         }

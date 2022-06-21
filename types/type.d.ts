@@ -4,22 +4,22 @@ export interface IaddItem {
     type: itemType;
     value: string;
 }
-export interface ReactKonvaEditorProps {
+export interface IProps {
     width: number;
     height: number;
     backgroundColor?: string;
-    addItem: IaddItem | undefined;
+    addItem?: IaddItem;
     backgroundStyle?: CSSProperties;
-    selectedItemChange: any;
-    maxStep: number;
+    selectedItemChange?: any;
+    maxStep?: number;
     setRedo?: (a: boolean) => void;
     setWithdraw?: (a: boolean) => void;
-    onChangeSelected: (a?: any) => void;
-    bindRef: (a: any) => void;
+    onChangeSelected?: (a?: any) => void;
+    bindRef?: (a: any) => void;
     stepInfo?: Iinfo[];
-    onChangeStep: (steps: any) => void;
+    onChangeStep?: (steps: any) => void;
 }
-export interface ICommonInfo {
+export interface IcommonInfo {
     id: number;
     type: itemType;
     isSelected?: boolean;
@@ -41,18 +41,19 @@ export interface ICommonInfo {
     mType?: number;
     elementName?: string;
 }
-export interface IimageInfo extends ICommonInfo {
+export interface IimageInfo extends IcommonInfo {
     type: 'image';
     value: string;
     trRef: any;
     width?: number;
     height?: number;
 }
-export interface ItextInfo extends ICommonInfo {
+export interface ItextInfo extends IcommonInfo {
     type: 'text';
     value: string;
+    color?: 'string';
 }
-export interface ReactKonvaEditorEvents {
+export interface IFunc {
     exportToImage: (a: string) => void;
     exportToBASE64: () => Promise<string>;
     exportToFile: (format: string, filename: string) => File | undefined;

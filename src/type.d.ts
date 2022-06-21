@@ -37,6 +37,7 @@ export interface IcommonInfo {
   onRef?: (a: any) => void;
   banDrag?: boolean;
   isNew?: boolean;
+  _isProportionalScaling?: string; // whether to scale the image proportionally
   x: number;
   y: number;
   w: number;
@@ -53,8 +54,6 @@ export interface IimageInfo extends IcommonInfo {
   trRef: any;
   width?: number;
   height?: number;
-  _isAdaptStage?: number;
-  _isProportionalScaling?: number;
 }
 
 export interface ItextInfo extends IcommonInfo {

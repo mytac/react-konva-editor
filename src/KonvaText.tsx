@@ -1,5 +1,6 @@
-import { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Text } from 'react-konva';
+import { SelectChangeListener } from './utils/textHandler';
 import { ItextInfo } from './type';
 
 const KonvaText: FC<ItextInfo> = ({
@@ -16,9 +17,56 @@ const KonvaText: FC<ItextInfo> = ({
   ...props
 }) => {
   const [showText, setShowText] = useState(true);
+  const [gradient, setGradient] = useState<any>({});
+
+  const changeGardient = (
+    allWidth: number,
+    a: number,
+    b: number,
+    total: number
+  ) => {
+    console.log('allWidth', allWidth);
+    // const EveryWidth = allWidth / total;
+    const targetColor = 'yellow';
+    const originColor = props.color || '#000';
+    const start = a >= b ? b : a;
+    const end = a > b ? a : b;
+    const split = [start / total, end / total];
+    console.log('split', split);
+    const obj = {
+      fill: 'red',
+      // fillLinearGradientStartPoint: { x: 0, y: 0 },
+      fillLinearGradientStartPoint: {
+        x: 0,
+        // x: start * EveryWidth * stageScale,
+        y: 0,
+      },
+      // fillLinearGradientEndPoint: { x: end * EveryWidth * stageScale, y: 0 },
+      fillLinearGradientEndPoint: { x: allWidth, y: 0 },
+      fillPatternRepeat: 'repeat-x',
+      // fillLinearGradientEndPoint: { x: 100, y: 0 },
+      fillLinearGradientColorStops: [
+        0,
+        originColor,
+        split[0],
+        originColor,
+        split[0],
+        targetColor,
+        split[1],
+        targetColor,
+        split[1],
+        originColor,
+        1,
+        originColor,
+      ],
+    };
+    console.log('obj', obj);
+    setGradient(obj);
+  };
+
   const onDblClick = (e: any) => {
     const textNode = myRef.current;
-
+    const originalText = textNode.text();
     if (!textNode) return;
 
     const transformerBoxAttr = trRef.current.children?.[0].attrs;
@@ -33,7 +81,8 @@ const KonvaText: FC<ItextInfo> = ({
     const textarea = document.createElement('textarea');
     setShowTransformer(false);
     document.body.appendChild(textarea);
-    textarea.value = textNode.text();
+
+    textarea.value = originalText;
     const scaleX = textNode.attrs.scaleX || 1;
     const originFontSize = props.fontSize || 40;
     const transformedFontSize = originFontSize * scaleX * stageScale;
@@ -41,10 +90,19 @@ const KonvaText: FC<ItextInfo> = ({
     textarea.style.position = 'fixed';
     textarea.style.top = areaPosition.y + 'px';
     textarea.style.left = areaPosition.x + 'px';
-    textarea.style.width =
-      transformerBoxAttr.width * stageScale - textNode.padding() * 2 + 'px';
-    textarea.style.height =
+    const realWidth =
+      transformerBoxAttr.width * stageScale - textNode.padding() * 2;
+    const realHeight =
       transformerBoxAttr.height * stageScale - textNode.padding() * 2 + 'px';
+    textarea.style.width = realWidth + 'px';
+    textarea.style.height = realHeight;
+
+    const selectChanger = new SelectChangeListener(
+      textarea,
+      originalText,
+      changeGardient,
+      realWidth
+    );
     //@ts-ignore
     textarea.style.fontSize = transformedFontSize + 'px';
     textarea.style.border = 'none';
@@ -74,7 +132,7 @@ const KonvaText: FC<ItextInfo> = ({
     textarea.style.transformOrigin = 'left top';
     textarea.style.textAlign = textNode.align();
     textarea.style.color = textNode.fill();
-
+    selectChanger.listen();
     let rotation = textNode.rotation();
     let transform = '';
     if (rotation) {
@@ -102,6 +160,7 @@ const KonvaText: FC<ItextInfo> = ({
         if (textarea) {
           document.body.removeChild(textarea);
           setShowText(true);
+          selectChanger.destory();
         }
       } catch (err) {
         console.log(err);
@@ -202,6 +261,11 @@ const KonvaText: FC<ItextInfo> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    handleInfo({ gradient });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gradient]);
+
   return (
     <>
       <Text
@@ -211,9 +275,17 @@ const KonvaText: FC<ItextInfo> = ({
         // @ts-ignore
         onClick={handleSelected}
         fontSize={40}
-        fill="#000"
+        // fill="#000"
         {...props}
+        fillAfterStrokeEnabled
+        // fillPriority="linear-gradient"
+        // fill={Object.keys(gradient) ? undefined : '#000'}
         value={undefined}
+        lineJoin="round"
+        // globalCompositeOperation="destination-in"
+
+        // {...gradient}
+
         // fontStyle="italic bold" // "italic"
         // align="center"
         // x={0}

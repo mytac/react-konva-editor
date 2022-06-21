@@ -1,7 +1,7 @@
-import { FC, useState, useRef, useEffect, useCallback } from 'react';
+import React, { FC, useState, useRef, useEffect, useCallback } from 'react';
 import { Stage, Layer, Rect, Group } from 'react-konva';
 import Konva from 'konva';
-import { ReactKonvaEditorProps, Iinfo, IaddItem, ReactKonvaEditorEvents, ICommonInfo } from './type';
+import { IProps, Iinfo, IaddItem, IFunc, IcommonInfo } from './type';
 import withTransform from './hoc/withTransform';
 import MyImage from './KonvaImg';
 import MyText from './KonvaText';
@@ -15,7 +15,7 @@ const KonvaText = withTransform(MyText);
 const hotkeyListener = new KeyboardListener();
 let stepCached: circularQueue | undefined;
 
-interface ShapePropsNApi extends FC<ReactKonvaEditorProps>, ReactKonvaEditorEvents {}
+interface ShapePropsNApi extends FC<IProps>, IFunc {}
 
 const outerInstance: any = {
   value: {},
@@ -101,7 +101,7 @@ const Shape: ShapePropsNApi = ({
       Object.keys(selectedItemChange).length &&
       selectedId
     ) {
-      handleSelectItem((item: ICommonInfo | undefined, index = -1) => {
+      handleSelectItem((item: IcommonInfo | undefined, index = -1) => {
         if (item && item.type === 'stage') {
           return;
         }
@@ -140,14 +140,12 @@ const Shape: ShapePropsNApi = ({
       if (selectedId === -1) {
         // stage
         const item = { type: 'stage' };
-        // @ts-ignore
         cb(item);
       } else {
         if (Array.isArray(steps)) {
           const idx = steps.findIndex((i: any) => i?.id === selectedId);
           if (idx > -1) {
             const item = steps[idx];
-            // @ts-ignore
             cb(item, idx);
           }
         } else {
@@ -161,7 +159,7 @@ const Shape: ShapePropsNApi = ({
   const onRef = useCallback(
     (ref: any) => {
       if (ref) {
-        handleSelectItem((item: ICommonInfo | undefined, index = 0) => {
+        handleSelectItem((item: IcommonInfo | undefined, index = 0) => {
           if (item && item.type === 'stage') {
             return;
           }
@@ -223,7 +221,7 @@ const Shape: ShapePropsNApi = ({
     if (stepCached) {
       setRedo(stepCached.canMoveForward);
       setWithdraw(stepCached.canMoveBack);
-      handleSelectItem((item: ICommonInfo | undefined) => {
+      handleSelectItem((item: IcommonInfo | undefined) => {
         if (item && item.type !== 'stage') {
           onChangeSelected(item);
         }
@@ -235,13 +233,11 @@ const Shape: ShapePropsNApi = ({
   }, [steps]);
 
   useEffect(() => {
-    if (selectedId > -1) {
-      handleSelectItem((item: Iinfo | undefined) => {
-        if (item) {
-          onChangeSelected(item);
-        }
-      });
-    }
+    handleSelectItem((item: Iinfo | undefined) => {
+      if (item) {
+        onChangeSelected(item);
+      }
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
