@@ -1,5 +1,4 @@
 #project
-dist
 node_modules
 .npmrc
 storage

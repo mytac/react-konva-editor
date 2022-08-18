@@ -1,0 +1,1 @@
+{"version":3,"file":"withTransform.d.ts","sourceRoot":"","sources":["../../src/hoc/withTransform.tsx"],"names":[],"mappings":"AAAA,OAAc,EAAE,EAAE,EAA4C,MAAM,OAAO,CAAC;AAK5E,QAAA,MAAM,aAAa,cAAe,EAAE;gBAEpB,OAAO;oBACH,GAAG,KAAK,IAAI;0BACN,GAAG,KAAK,IAAI;;;;;iBA+FrC,CAAC;AAEF,eAAe,aAAa,CAAC"}
