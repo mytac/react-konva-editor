@@ -1,6 +1,6 @@
 {
   "name": "react-konva-editor",
-  "version": "1.0.2",
+  "version": "0.0.1-beta",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
   "main": "./index.ts",
