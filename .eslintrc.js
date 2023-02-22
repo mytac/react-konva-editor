@@ -3,7 +3,7 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'prettier/prettier': 1,
-    'max-len': [1, 80],
+    'max-len': [1, 160],
     'no-fallthrough': [0],
   },
   env: {

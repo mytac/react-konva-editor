@@ -1,5 +1,6 @@
 const handleKonvaItem = (konvaNode: any) => {
-  const { attrs, textWidth, textHeight } = konvaNode;
+  // const { attrs, textWidth, textHeight } = konvaNode;
+  const { attrs } = konvaNode;
   const {
     scaleX = 1,
     scaleY = 1,
@@ -11,11 +12,13 @@ const handleKonvaItem = (konvaNode: any) => {
     type,
   } = attrs;
   const otherProperty: any = {};
+  console.log('x', x);
+  console.log('y', y);
   if (type === 'text') {
     otherProperty.x = Math.round(x);
     otherProperty.y = Math.round(y);
-    otherProperty.w = Math.round(textWidth * scaleX);
-    otherProperty.h = Math.round(textHeight * scaleY);
+    // otherProperty.w = Math.round(textWidth * scaleX);
+    // otherProperty.h = Math.round(textHeight * scaleY);
   }
 
   return {

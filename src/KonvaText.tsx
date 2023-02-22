@@ -17,6 +17,7 @@ const KonvaText: FC<ItextInfo> = ({
   ...props
 }) => {
   const [showText, setShowText] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [gradient, setGradient] = useState<any>({});
 
   const changeGardient = (
@@ -32,7 +33,6 @@ const KonvaText: FC<ItextInfo> = ({
     const start = a >= b ? b : a;
     const end = a > b ? a : b;
     const split = [start / total, end / total];
-    console.log('split', split);
     const obj = {
       fill: 'red',
       // fillLinearGradientStartPoint: { x: 0, y: 0 },
@@ -261,10 +261,10 @@ const KonvaText: FC<ItextInfo> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    handleInfo({ gradient });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gradient]);
+  // useEffect(() => {
+  //   handleInfo({ gradient });
+  //   // eslint-dissable-next-line react-hooks/exhaustive-deps
+  // }, [gradient]);
 
   return (
     <>
@@ -283,7 +283,6 @@ const KonvaText: FC<ItextInfo> = ({
         value={undefined}
         lineJoin="round"
         // globalCompositeOperation="destination-in"
-
         // {...gradient}
 
         // fontStyle="italic bold" // "italic"
