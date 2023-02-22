@@ -1,7 +1,6 @@
 # react-konva-editor
+
 An image editor which is built by konva and react.
-
-
 
 ```jsx
  const stepInfo = [
@@ -48,18 +47,26 @@ An image editor which is built by konva and react.
 ```
 
 ## props
-## reference
-1. [build reference](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c)
+
+## Timeline
+
+23-2-20 支持多选图层，拆组和解组-可配合 toolkit 使用
 
 ## Todos
-序号|内容|完成情况
--|-|-|
-1|js环境调通|√
-2|ts type规范化| delay
-3|ts环境调通| ing
-4|依赖库配置| delay
-5|使用文档|-
-6|线上示例|-
+
+| 序号 | 内容           | 完成情况 |
+| ---- | -------------- | -------- |
+| 1    | js 环境调通    | √        |
+| 2    | ts type 规范化 | delay    |
+| 3    | ts 环境调通    | ing      |
+| 4    | 依赖库配置     | delay    |
+| 5    | 使用文档       | -        |
+| 6    | 线上示例       | -        |
+
+## reference
+
+1. [build reference](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c)
+2. [react-konva](https://github.com/konvajs/react-konva)
 
 Setup automated build with Travis
 Analyze code-coverage with Codecov

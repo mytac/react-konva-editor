@@ -11,7 +11,7 @@ const withTransform = (Component: FC) => {
     rotation?: number;
     opacity?: number;
     banDrag?: boolean;
-    type?: 'text' | 'image';
+    type?: 'text' | 'image' | 'group';
   }) => {
     const {
       isSelected = false,

@@ -1,6 +1,12 @@
 import { CSSProperties } from 'react';
-
-type itemType = 'image' | 'text' | 'stage';
+export type itemType = 'image' | 'text' | 'shape' | 'stage' | 'group';
+export type ShapeType =
+  | 'rect'
+  | 'circle'
+  | 'arc'
+  | 'star'
+  | 'arrow'
+  | 'ellipse';
 
 // props
 export interface IaddItem {
@@ -34,13 +40,16 @@ export interface IcommonInfo {
   setShowTransformer: (s: boolean) => void;
   stageRef?: any;
   myRef?: any;
+  trRef?: any;
   onRef?: (a: any) => void;
   banDrag?: boolean;
   isNew?: boolean;
   x: number;
   y: number;
-  w: number;
-  h: number;
+  // w: number;
+  // h: number;
+  scaleX?: number;
+  scaleY?: number;
   stageScale: number;
   fontSize?: number;
   mType?: number;
@@ -51,10 +60,49 @@ export interface IimageInfo extends IcommonInfo {
   type: 'image';
   value: string;
   trRef: any;
+  crop: any;
   width?: number;
   height?: number;
   _isAdaptStage?: number;
   _isProportionalScaling?: number;
+  _isChangedCrop?: boolean;
+}
+
+export interface IShapeInfo extends IcommonInfo {
+  type: 'shape';
+  value: ShapeType;
+  fill?: string;
+  width?: number;
+  height?: number;
+  stroke?: string; // 描边颜色
+  strokeWidth?: number; // 描边宽度
+
+  // 以下为Rect专属
+  cornerRadius?: number | Array<number>;
+
+  // 以下为Circle专属props
+  radius?: number;
+
+  // 以下为arc专属字段
+  innerRadius?: number; // 内径
+  outerRadius?: number; // 外径
+  angle?: number; // 弧形圆角
+
+  // 以下为star专属
+  numPoints?: number;
+
+  // 以下为arrow专属
+  points?: Array<number>;
+
+  // 以下为ellipse专属
+  ellipseRadius?: { radiusX: number; radiusY: number };
+  // pointerLength?: number;
+  // pointerWidth?: number;
+}
+
+export interface IgroupInfo extends IcommonInfo {
+  type: 'group';
+  elements: Array<IimageInfo | ItextInfo>;
 }
 
 export interface ItextInfo extends IcommonInfo {
@@ -64,7 +112,10 @@ export interface ItextInfo extends IcommonInfo {
 }
 
 export interface IFunc {
-  exportToImage: (a: string) => void;
+  exportToImage: (
+    a: string,
+    opt?: { scale?: number; quality?: number; fileType?: string }
+  ) => void;
   exportToBASE64: () => Promise<string>;
   exportToFile: (format: string, filename: string) => File | undefined;
   withdraw: () => void;
@@ -73,10 +124,15 @@ export interface IFunc {
   deleteItem: () => void;
   copyItem: () => void;
   getInfo: () => any;
-  moveLayer: (i: number) => void;
+  moveLayerLevel: (i: number) => void;
+  moveLayer: (direction: string, delta: number) => void;
   clearSelected: () => void;
   setSelectedIndex: (id: number) => void;
   toogleLock: (index: number) => void;
+  toggleMultiSelected: (state: boolean) => void;
+  madeGroup: (layers: any) => void;
+  divideGroup: (groupId: string) => void;
+  // getSelectedInfo: () => Iinfo | Array<Iinfo>;
 }
 
-export type Iinfo = IimageInfo | ItextInfo;
+export type Iinfo = IimageInfo | ItextInfo | IShapeInfo | IgroupInfo;

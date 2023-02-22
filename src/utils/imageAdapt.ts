@@ -5,7 +5,7 @@ const _coreAdaption = (
   substract: number,
   ratio: number,
   containerW: number,
-  containerH: number,
+  containerH: number
 ) => {
   const res: resType = {};
 
@@ -35,7 +35,7 @@ const _computeCenterInStage = (
   imgW: number,
   imgH: number,
   stageW: number,
-  stageH: number,
+  stageH: number
 ) => {
   const x = Math.round((stageW - imgW) / 2);
   const y = Math.round((stageH - imgH) / 2);
@@ -54,7 +54,7 @@ const _computeCenterInStage = (
  */
 const adaptReplaceImage = (
   image: any,
-  oldSize: { width: number; height: number },
+  oldSize: { width: number; height: number }
 ) => {
   if (image && oldSize) {
     const imgW = image.width;
@@ -102,7 +102,7 @@ const adaptNewImage = (image: any, stage: any) => {
       size.width,
       size.height,
       stageW,
-      stageH,
+      stageH
     );
     return { ...coordinate, ...size };
   } else {
@@ -136,7 +136,7 @@ const stageScaleAutoAdapt = (
   stageW: number,
   stageH: number,
   imgW: number,
-  imgH: number,
+  imgH: number
 ) => {
   if (imgW < stageW && imgH < stageH) {
     return 1; // 画布比舞台小的不缩放
@@ -147,9 +147,22 @@ const stageScaleAutoAdapt = (
   }
 };
 
+const cropImageAdaptStage = (
+  crop: any,
+  changedWidth: number,
+  changedHeight: number
+) => {
+  const { x, y, width, height } = crop;
+  const kx = width / changedWidth;
+  const ky = height / changedHeight;
+  return { x: x / kx, y: y / ky };
+  // return { x: x, y: y };
+};
+
 export {
   adaptReplaceImage,
   adaptNewImage,
+  cropImageAdaptStage,
   stageScaleAdapt,
   stageScaleAutoAdapt,
 };

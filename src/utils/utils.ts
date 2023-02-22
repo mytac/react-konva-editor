@@ -1,3 +1,5 @@
+import { isObject } from 'lodash';
+import { Iinfo } from '../type';
 /**
  * canvasInfo中有重复的id，对其进行替换并输出
  */
@@ -7,14 +9,28 @@ const handleDuplicateId = (canvasInfo = []) => {
   return canvasInfo.map((info: any) => {
     if (info) {
       if (info.id && idMap[info.id]) {
-        // 重复的值则进行替换
-        const newKey: number =
-          Number(info.id) + Number((Math.random() * 100).toFixed());
-        idMap[newKey] = 1;
-        return {
-          ...info,
-          id: newKey,
-        };
+        if (typeof info.id === 'number') {
+          // 重复的值则进行替换
+          const newKey: number =
+            Number(info.id) + Number((Math.random() * 100).toFixed());
+          idMap[newKey] = 1;
+          return {
+            ...info,
+            id: newKey,
+          };
+        } else if (typeof info.id === 'string') {
+          const newKey: string = info.id + '_duplicate';
+          idMap[newKey] = 1;
+          return {
+            ...info,
+            id: newKey,
+          };
+        } else {
+          return {
+            ...info,
+            id: new Date().getTime(),
+          };
+        }
       } else {
         idMap[info.id] = 1;
         return info;
@@ -33,4 +49,29 @@ const downloadURI = (uri: string, name: string) => {
   document.body.removeChild(link);
 };
 
-export { handleDuplicateId, downloadURI };
+const isSelectedId = (id: number | Array<number>, layerId: number) => {
+  if (Array.isArray(id)) {
+    return id.includes(layerId);
+  } else {
+    return id === layerId;
+  }
+};
+
+// 多选元素更新patch
+const updateMultiPatch = (patch: any, layers: Array<Iinfo>) => {
+  const newLayers = [...layers];
+  if (isObject(patch)) {
+    const ids = Object.keys(patch);
+    ids.forEach((id: string) => {
+      const index = newLayers.findIndex((layer: any) => layer?.id === id);
+      // @ts-ignore
+      if (index > -1 && isObject(patch[id])) {
+        //@ts-ignore
+        newLayers[index] = { ...newLayers[index], ...patch[id] };
+      }
+    });
+  }
+  console.error('多选patch格式错误');
+};
+
+export { handleDuplicateId, downloadURI, isSelectedId, updateMultiPatch };
