@@ -2,6 +2,8 @@
 
 A fundamental image editor component based on react and konva.You can use it with [react-konva-editor-kit](https://github.com/mytac/react-konva-editor-kit) which supplies some tools about transforming and styling of text and image on canvas.
 
+[中文](./README%20_CN.md)
+
 ## Installation
 
 ```
@@ -61,15 +63,22 @@ $ yarn add react-konva-editor
 
 ## API
 
-| API name       | type                                                                   | description                                                           |
-| -------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| exportToImage  | (fileName:string,options?:[ImageExportProps](#ImageExportProps))=>void | export image can be customized                                        |
-| exportToBASE64 | ()=>void                                                               | export BASE64 of the canvas                                           |
-| withdraw       | ()=>void                                                               | withdraw action                                                       |
-| redo           | ()=>void                                                               | redo action                                                           |
-| canvasScale    | (ratio:number)=>void                                                   | zoom ratio of the canvas (ratio is (0,2.75])                          |
-| deleteItem     | ()=>void                                                               | delete selected item on canvas                                        |
-| moveLayerLevel | `(i: number)=>void`                                                    | When i is less than 0, the selected layer will move to the next layer |
+| API name            | type                                                                      | description                                                           |
+| ------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| exportToImage       | (fileName:string,options?:[ImageExportProps](#ImageExportProps))=>void    | export image can be customized                                        |
+| exportToBASE64      | ()=>void                                                                  | export BASE64 of the canvas                                           |
+| withdraw            | ()=>void                                                                  | withdraw action                                                       |
+| redo                | ()=>void                                                                  | redo action                                                           |
+| canvasScale         | (ratio:number)=>void                                                      | zoom ratio of the canvas (ratio is (0,2.75])                          |
+| deleteItem          | ()=>void                                                                  | delete selected item on canvas                                        |
+| moveLayerLevel      | `(i: number)=>void`                                                       | When i is less than 0, the selected layer will move to the next layer |
+| moveLayer           | `(direction: 'right' \| 'left' \| 'top'\| 'bottom', delta: number)=>void` | move `delta` unit on canvas on specific `direction`                   |
+| setSelectedIndex    | `(id:number)=>void`                                                       | Select the selected layers in order                                   |
+| clearSelected       | `()=>void`                                                                | Unselected layer                                                      |
+| toggleMultiSelected | `(state:boolean)=>void`                                                   | switch multi-selected mode                                            |
+| toogleLock          | `(index:number)=>void`                                                    | toggle the lock state of specific layer                               |
+| madeGroup           | `(layers:Array\<ItemProp>)=>void`                                         | Group the selected layers                                             |
+| divideGroup         | `(groupId:string)=>void`                                                  | Ungroup by a specific groupId                                         |
 
 <h3 id="ImageExportProps">ImageExportProps </h3>
 
