@@ -12,8 +12,6 @@ const handleKonvaItem = (konvaNode: any) => {
     type,
   } = attrs;
   const otherProperty: any = {};
-  console.log('x', x);
-  console.log('y', y);
   if (type === 'text') {
     otherProperty.x = Math.round(x);
     otherProperty.y = Math.round(y);

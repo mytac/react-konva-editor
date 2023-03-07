@@ -28,6 +28,7 @@ const KonvaShape: FC<IShapeInfo> = ({
   }, [isSelected, trRef, myRef]);
 
   const commonProps = {
+    key: String(id),
     id: String(id),
     ref: myRef,
     onClick: banDrag ? noop : handleSelected,

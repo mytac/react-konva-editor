@@ -1,8 +1,14 @@
 import React, { FC, useState, useRef, useEffect, useCallback } from 'react';
 import { Stage, Layer, Rect } from 'react-konva';
 import Konva from 'konva';
-import { isArray, isNumber } from 'lodash';
-import { IProps, Iinfo, IaddItem, IFunc, IcommonInfo } from './type';
+import {
+  IProps,
+  Iinfo,
+  IaddItem,
+  IFunc,
+  IcommonInfo,
+  IgroupInfo,
+} from './type';
 import withTransform from './hoc/withTransform';
 import MyImage from './KonvaImg';
 import MyText from './KonvaText';
@@ -11,6 +17,7 @@ import MyGroup from './KonvaGroup';
 import { handleDuplicateId, downloadURI, isSelectedId } from './utils/utils';
 import circularQueue from './utils/circularQueue';
 import KeyboardListener from './keyboardListener';
+import { isArray, isNumber } from 'lodash';
 // @ts-ignore
 const KonvaGroup = withTransform(MyGroup);
 // @ts-ignore
@@ -34,7 +41,7 @@ const outerInstance: any = {
   },
 };
 
-const Shape: ShapePropsNApi = ({
+const Core: ShapePropsNApi = ({
   width,
   height,
   backgroundColor = '#fff',
@@ -163,7 +170,7 @@ const Shape: ShapePropsNApi = ({
   }, [selectedItemChange]); // 更改选中元素的属性
 
   const handleSelectItem = useCallback(
-    (cb = (a: any, b?: any) => {}) => {
+    (cb = (a: Iinfo | undefined) => {}) => {
       if (selectedId === -1) {
         // stage
         const item = { type: 'stage' };
@@ -173,7 +180,7 @@ const Shape: ShapePropsNApi = ({
         const indexes: any = [];
         const items: any = [];
         for (let i = 0; i < steps.length; i += 1) {
-          if (steps[i]?.id && selectedId.includes(steps[i].id)) {
+          if (selectedId.includes(steps[i].id)) {
             indexes.push(steps[i].id);
             items.push(steps[i]);
           }
@@ -247,7 +254,7 @@ const Shape: ShapePropsNApi = ({
 
   useEffect(() => {
     const { current } = outRef;
-    hotkeyListener.init(Shape);
+    hotkeyListener.init(Core);
     hotkeyListener.listening(current);
     return () => {
       stepCached = undefined;
@@ -515,50 +522,86 @@ const Shape: ShapePropsNApi = ({
     outerInstance.attach('moveLayer', moveLayer);
   }, [moveLayer]);
 
-  const renderGroup = (info: Iinfo, idx: number, inGroup: boolean = false) =>
-    info.type === 'image' ? (
-      <KonvaImage
-        banDrag={inGroup ? true : undefined}
-        {...info}
+  const renderGroup = (info: Iinfo, idx: number, inGroup: boolean = false) => {
+    const { type } = info;
+    if (type === 'group' && (info as IgroupInfo).elements) {
+      return (
         // @ts-ignore
-        value={info.value}
-        isNew={newId === info.id}
-        onRef={onRef}
-        stageRef={stageRef}
-        isSelected={isSelectedId(selectedId, info.id)}
-        handleInfo={handleInfo.bind(null, idx)}
-        handleSelected={handleSelected.bind(null, info.id)}
-        id={String(info.id)}
-      />
-    ) : info.type === 'shape' ? (
-      <KonvaShape
-        banDrag={inGroup ? true : undefined}
-        {...info}
-        //@ts-ignore
-        stageRef={stageRef}
-        onRef={onRef}
-        isNew={newId === info.id}
-        isSelected={isSelectedId(selectedId, info.id)}
-        handleInfo={handleInfo.bind(null, idx)}
-        handleSelected={handleSelected.bind(null, info.id)}
-        stageScale={stageScale}
-        id={String(info.id)}
-      />
-    ) : (
-      <KonvaText
-        banDrag={inGroup ? true : undefined}
-        {...info}
-        //@ts-ignore
-        stageRef={stageRef}
-        onRef={onRef}
-        isNew={newId === info.id}
-        isSelected={isSelectedId(selectedId, info.id)}
-        handleInfo={handleInfo.bind(null, idx)}
-        handleSelected={handleSelected.bind(null, info.id)}
-        stageScale={stageScale}
-        id={String(info.id)}
-      />
-    );
+        <KonvaGroup
+          key={info.id}
+          type="group"
+          banDrag={false}
+          onRef={onRef}
+          stageRef={stageRef}
+          isSelected={isSelectedId(selectedId, info.id)}
+          handleInfo={handleInfo.bind(null, idx)}
+          handleSelected={handleSelected.bind(null, info.id)}
+          id={String(info.id)}
+        >
+          {(info as IgroupInfo)?.elements.map((i: Iinfo, iidx: number) =>
+            renderGroup(i, idx, true),
+          )}
+        </KonvaGroup>
+      );
+    }
+    if (type === 'image') {
+      return (
+        <KonvaImage
+          key={info.id}
+          banDrag={inGroup ? true : undefined}
+          {...info}
+          // @ts-ignore
+          value={info.value}
+          isNew={newId === info.id}
+          onRef={onRef}
+          stageRef={stageRef}
+          isSelected={isSelectedId(selectedId, info.id)}
+          handleInfo={handleInfo.bind(null, idx)}
+          handleSelected={handleSelected.bind(null, info.id)}
+          id={String(info.id)}
+        />
+      );
+    }
+
+    if (type === 'text') {
+      return (
+        <KonvaText
+          key={info.id}
+          banDrag={inGroup ? true : undefined}
+          {...info}
+          //@ts-ignore
+          stageRef={stageRef}
+          onRef={onRef}
+          isNew={newId === info.id}
+          isSelected={isSelectedId(selectedId, info.id)}
+          handleInfo={handleInfo.bind(null, idx)}
+          handleSelected={handleSelected.bind(null, info.id)}
+          stageScale={stageScale}
+          id={String(info.id)}
+        />
+      );
+    }
+
+    if (type === 'shape') {
+      return (
+        <KonvaShape
+          key={info.id}
+          banDrag={inGroup ? true : undefined}
+          {...info}
+          //@ts-ignore
+          stageRef={stageRef}
+          onRef={onRef}
+          isNew={newId === info.id}
+          isSelected={isSelectedId(selectedId, info.id)}
+          handleInfo={handleInfo.bind(null, idx)}
+          handleSelected={handleSelected.bind(null, info.id)}
+          stageScale={stageScale}
+          id={String(info.id)}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <div
@@ -586,14 +629,14 @@ const Shape: ShapePropsNApi = ({
             fill={backgroundColor}
           />
         </Layer>
-
-        {steps &&
-          steps.map((info: Iinfo, idx: number) =>
-            info ? (
-              info.type === 'group' ? (
-                <Layer>
-                  {/* @ts-ignore */}
+        <Layer key="content">
+          {steps &&
+            steps.map((info: Iinfo, idx: number) =>
+              info ? (
+                info.type === 'group' ? (
+                  // @ts-ignore
                   <KonvaGroup
+                    key={info.id}
                     type="group"
                     banDrag={false}
                     onRef={onRef}
@@ -607,34 +650,19 @@ const Shape: ShapePropsNApi = ({
                       renderGroup(i, idx, true),
                     )}
                   </KonvaGroup>
-                </Layer>
-              ) : (
-                <Layer>{renderGroup(info, idx)}</Layer>
-              )
-            ) : null,
-          )}
-
-        {/* <Layer>
-          {steps &&
-            steps.map((info: Iinfo, idx: number) =>
-              info ? (
-                <Group key={info.id}>
-                  {info.type === 'group'
-                    ? info.elements.map((i: Iinfo, iidx: number) =>
-                        renderGroup(i, idx)
-                      )
-                    : renderGroup(info, idx)}
-                </Group>
-              ) : null
+                ) : (
+                  renderGroup(info, idx)
+                )
+              ) : null,
             )}
-        </Layer> */}
+        </Layer>
       </Stage>
     </div>
   );
 };
 
 // 输出并下载图片
-Shape.exportToImage = (
+Core.exportToImage = (
   filename = 'stage.jpg',
   options: { scale?: number; quality?: number; fileType?: string } = {
     scale: 1,
@@ -664,7 +692,7 @@ Shape.exportToImage = (
 };
 
 // 输出base64
-Shape.exportToBASE64 = () => {
+Core.exportToBASE64 = () => {
   const { stageRef, setSelected } = outerInstance.value;
   // 先把Transformer去掉
   setSelected(0);
@@ -681,7 +709,7 @@ Shape.exportToBASE64 = () => {
 };
 
 // 输出文件类型
-Shape.exportToFile = (format = 'png', fileName) => {
+Core.exportToFile = (format = 'png', fileName) => {
   const { stageRef, setSelected } = outerInstance.value;
   function dataURLtoFile(dataurl: string, filename: string) {
     const arr = dataurl.split(',');
@@ -709,7 +737,7 @@ Shape.exportToFile = (format = 'png', fileName) => {
 };
 
 // 撤销
-Shape.withdraw = () => {
+Core.withdraw = () => {
   const { setSteps } = outerInstance.value;
   if (stepCached && stepCached.canMoveBack) {
     stepCached.moveBack();
@@ -719,7 +747,7 @@ Shape.withdraw = () => {
 };
 
 // 重做
-Shape.redo = () => {
+Core.redo = () => {
   const { setSteps } = outerInstance.value;
   if (stepCached && stepCached.canMoveForward) {
     stepCached.moveForward();
@@ -728,7 +756,7 @@ Shape.redo = () => {
 };
 
 // 画布缩放
-Shape.canvasScale = (ratio: number) => {
+Core.canvasScale = (ratio: number) => {
   const { setStageScale } = outerInstance.value;
   // ratio属于[0.25,2]
   if (ratio <= 2.75 && ratio > 0) {
@@ -737,19 +765,19 @@ Shape.canvasScale = (ratio: number) => {
 };
 
 // 删除选中元素
-Shape.deleteItem = () => {
+Core.deleteItem = () => {
   const { deleteItem } = outerInstance.value;
   deleteItem();
 };
 
 // 复制图层
-Shape.copyItem = () => {
+Core.copyItem = () => {
   const { copyItem } = outerInstance.value;
   copyItem();
 };
 
 // 获取当前画布信息
-Shape.getInfo = () => {
+Core.getInfo = () => {
   if (stepCached) {
     /* Removing some private properties of the step information
       (especially _ignore,_isProportionalScaling etc.)
@@ -770,37 +798,37 @@ Shape.getInfo = () => {
 };
 
 // i正数往上移动，负数往下移动
-Shape.moveLayerLevel = (i: number) => {
+Core.moveLayerLevel = (i: number) => {
   const { moveLayerLevel } = outerInstance.value;
   moveLayerLevel(i);
 };
 
 // 将图层向四个方向移动像素
-Shape.moveLayer = (direction: string, delta: number) => {
+Core.moveLayer = (direction: string, delta: number) => {
   const { moveLayer } = outerInstance.value;
   moveLayer(direction, delta);
 };
 
 // 清空选项
-Shape.clearSelected = () => {
+Core.clearSelected = () => {
   const { setSelected } = outerInstance.value;
   setSelected(-1);
 };
 
 // 设置选中图层
-Shape.setSelectedIndex = (id: number) => {
+Core.setSelectedIndex = (id: number) => {
   const { setSelected } = outerInstance.value;
   setSelected(id);
 };
 
 // 多选图层开关
-Shape.toggleMultiSelected = (state: boolean) => {
+Core.toggleMultiSelected = (state: boolean) => {
   const { toggleMultiSelected } = outerInstance.value;
   toggleMultiSelected(state);
 };
 
 // 锁定/解锁某个图层
-Shape.toogleLock = (id: number) => {
+Core.toogleLock = (id: number) => {
   const { setSteps } = outerInstance.value;
   if (stepCached) {
     const currentLayer = [...stepCached.getCurrent()];
@@ -811,15 +839,15 @@ Shape.toogleLock = (id: number) => {
   }
 };
 // // 成组
-Shape.madeGroup = (layers: any) => {
+Core.madeGroup = (layers: any) => {
   const { madeGroup } = outerInstance.value;
   madeGroup(layers);
 };
 
 // 拆组
-Shape.divideGroup = (groupId: string) => {
+Core.divideGroup = (groupId: string) => {
   const { divideGroup } = outerInstance.value;
   divideGroup(groupId);
 };
 
-export default Shape;
+export default Core;
