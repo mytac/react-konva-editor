@@ -125,6 +125,11 @@ const KonvaImage: FC<IimageInfo> = ({
     }
   }, [image, trRef, myRef]);
 
+  const commonParams: any = {};
+  if (crop) {
+    commonParams.crop = crop;
+  }
+
   return (
     <Image
       image={image}
@@ -132,7 +137,7 @@ const KonvaImage: FC<IimageInfo> = ({
       onClick={banDrag ? noop : handleSelected}
       // @ts-ignore
       id={String(props.id)}
-      crop={crop}
+      {...commonParams}
       {...props}
     />
   );
