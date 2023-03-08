@@ -1,13 +1,9 @@
-import { FC, useEffect, Children, ReactNode } from 'react';
+import React, { FC, useEffect } from 'react';
 import { noop } from 'lodash';
 import { Group } from 'react-konva';
 import { IShapeInfo } from './type';
 
-interface GroupInterface extends IShapeInfo {
-  children: ReactNode;
-}
-
-const KonvaGroup: FC<GroupInterface> = ({
+const KonvaGroup: FC<IShapeInfo> = ({
   stageRef,
   myRef,
   setShowTransformer,
@@ -38,15 +34,17 @@ const KonvaGroup: FC<GroupInterface> = ({
     ...props,
   };
 
-  if (props?.children) {
-    return (
-      <Group {...commonProps}>
-        {Children.map(props.children, (child) => child)}
-      </Group>
-    );
-  }
+  const childrenWithProps = React.Children.map(props.children, (child) => {
+    // Checking isValidElement is the safe way and avoids a
+    // typescript error too.
+    if (React.isValidElement(child)) {
+      // @ts-ignore
+      return React.cloneElement(child, { banDrag: true });
+    }
+    return child;
+  });
 
-  return null;
+  return <Group {...commonProps}>{childrenWithProps}</Group>;
 };
 
 export default KonvaGroup;
