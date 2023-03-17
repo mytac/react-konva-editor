@@ -1,6 +1,6 @@
 {
   "name": "react-konva-editor",
-  "version": "0.0.1-cita",
+  "version": "0.0.2",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
   "main": "./index.ts",
@@ -27,7 +27,7 @@
     "react",
     "konva"
   ],
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/mytac/react-konva-editor/issues"
   },
