@@ -1,66 +1,109 @@
 # react-konva-editor
-An image editor which is built by konva and react.
 
+A fundamental image editor component based on react and konva.You can use it with [react-konva-editor-kit](https://github.com/mytac/react-konva-editor-kit) which supplies some tools about transforming and styling of text and image on canvas.
 
+[中文](./README%20_CN.md)
 
-```jsx
- const stepInfo = [
-    {type:'text',value:'hello',x:10,y:10,color:'red'},
-  ]
+## Installation
 
-// ...
-<ReactKonvaEditor
-           backgroundStyle={{
-                backgroundColor: '#F1F3F7',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              width={500}
-              height={500}
-              backgroundColor="#fff"
-              maxStep={10}
-              stepInfo={stepInfo}
-      />
 ```
+$ npm install react-konva-editor
+```
+
+or
+
+```
+$ yarn add react-konva-editor
+```
+
+## Usage
 
 ```tsx
 <KonvaCanvas
-  width="1200px"
-  height="800px"
-  onStepBack={() => {}} // 撤销
-  onStepForward={() => {}} // 重做
-  onScale={(a: number) => {}} // 缩放倍率 a[10,200]
-  addItem={KonvaItem} // 见下
-  onDel={(id: number) => {}}
-  saveImg={} //生成图片
-  saveData={} // 存储信息
+  backgroundStyle={{
+    backgroundColor: '#F1F3F7',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}
+  onChangeSelected={store.setSelected}
+  width={store.width}
+  height={store.height}
+  backgroundColor={store.backgroundColor}
+  addItem={addedItem}
+  selectedItemChange={changedItem}
+  maxStep={10}
+  setWithdraw={setWithdraw}
+  setRedo={setRedo}
+  bindRef={store.setCurrentRef}
+  stepInfo={stepInfo}
+  onChangeStep={onChangeStep}
 />
 ```
 
-## KonvaItem
+## Props
 
-```
-{
-  type:'img'|'text',
-  value:'' 是图片就传地址，文本类型就写个默认值
-}
-```
+| propName           | type                      | required | description                                                                                               |
+| ------------------ | ------------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| backgroundStyle    | Object                    | √        | canvas component background style                                                                         |
+| width              | number                    | √        | canvas width                                                                                              |
+| height             | number                    | √        | canvas height                                                                                             |
+| backgroundColor    | string                    | -        | canvas background color                                                                                   |
+| addItem            | ItemProp                  | -        | when you need to add something on canvas,you should change `addItem`                                      |
+| onChangeSelected   | (ItemProp)=>void          | √        | return selected item data when you click a layer on canvas                                                |
+| selectedItemChange | Object                    | -        | when you need to change the selected item,you should put a object with properties in `selectedItemChange` |
+| maxStep            | number                    | -        | max length of withdraw/redo queue (default is 10)                                                         |
+| stepInfo           | Array\<ItemProp>          | √        | A series of `ItemProp` which had been shown on your canvas                                                |
+| bindRef            | (ReactRef)=>void          | √        | A function bind React Ref                                                                                 |
+| setWithdraw        | ()=>void                  | -        | A callback when you withdraw operation                                                                    |
+| setRedo            | ()=>void                  | -        | A callback when you redo operation                                                                        |
+| onChangeStep       | (Array\<ItemProp> )=>void | √        | A callback when you change anything on canvas,it will return ItemProps which means infomations on canvas  |
 
-## props
+### ItemProp
+
+## API
+
+| API name            | type                                                                      | description                                                           |
+| ------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| exportToImage       | (fileName:string,options?:[ImageExportProps](#ImageExportProps))=>void    | export image can be customized                                        |
+| exportToBASE64      | ()=>void                                                                  | export BASE64 of the canvas                                           |
+| withdraw            | ()=>void                                                                  | withdraw action                                                       |
+| redo                | ()=>void                                                                  | redo action                                                           |
+| canvasScale         | (ratio:number)=>void                                                      | zoom ratio of the canvas (ratio is (0,2.75])                          |
+| deleteItem          | ()=>void                                                                  | delete selected item on canvas                                        |
+| moveLayerLevel      | `(i: number)=>void`                                                       | When i is less than 0, the selected layer will move to the next layer |
+| moveLayer           | `(direction: 'right' \| 'left' \| 'top'\| 'bottom', delta: number)=>void` | move `delta` unit on canvas on specific `direction`                   |
+| setSelectedIndex    | `(id:number)=>void`                                                       | Select the selected layers in order                                   |
+| clearSelected       | `()=>void`                                                                | Unselected layer                                                      |
+| toggleMultiSelected | `(state:boolean)=>void`                                                   | switch multi-selected mode                                            |
+| toogleLock          | `(index:number)=>void`                                                    | toggle the lock state of specific layer                               |
+| madeGroup           | `(layers:Array\<ItemProp>)=>void`                                         | Group the selected layers                                             |
+| divideGroup         | `(groupId:string)=>void`                                                  | Ungroup by a specific groupId                                         |
+
+<h3 id="ImageExportProps">ImageExportProps </h3>
+
+| propName | type                        | required | description                                       |
+| -------- | --------------------------- | -------- | ------------------------------------------------- |
+| scale    | number[0.1-3]               | -        | Scale ratio of output image (default is 1)        |
+| quality  | number [0.1-1]              | -        | quality of export image(default is 1)             |
+| fileType | 'image/png' \| 'image/jpeg' | -        | filetype of export image(default is 'image/png' ) |
+
+## Timeline
+
+23-2-20 支持多选图层，拆组和解组-可配合 toolkit 使用
+
 ## reference
+
 1. [build reference](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c)
+2. [react-konva](https://github.com/konvajs/react-konva)
 
 ## Todos
-序号|内容|完成情况
--|-|-|
-1|js环境调通|√
-2|ts type规范化| delay
-3|ts环境调通| ing
-4|依赖库配置| delay
-5|使用文档|-
-6|线上示例|-
 
-Setup automated build with Travis
-Analyze code-coverage with Codecov
-Add badges to your readme with Shields. Everyone loves badges 😎
+| 序号 | 内容           | 完成情况 |
+| ---- | -------------- | -------- |
+| 1    | js 环境调通    | √        |
+| 2    | ts type 规范化 | delay    |
+| 3    | ts 环境调通    | √        |
+| 4    | 依赖库配置     | delay    |
+| 5    | 使用文档       | ing      |
+| 6    | 线上示例       | -        |

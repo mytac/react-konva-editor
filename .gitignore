@@ -1,9 +1,9 @@
 #project
 node_modules
+dist
 .npmrc
 storage
 types
 .npm_token
 lib
-dist
 package-lock.json

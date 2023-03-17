@@ -1,1 +1,0 @@
-{"version":3,"file":"keyboardListener.d.ts","sourceRoot":"","sources":["../src/keyboardListener.ts"],"names":[],"mappings":"AAcA,cAAM,gBAAgB;IACpB,OAAO,EAAE,GAAG,CAAC;IACb,cAAc,EAAE,GAAG,CAAC;;IAMpB,IAAI,qBAAsB,GAAG,UAiC3B;IAEF,SAAS,WAAY,GAAG,UAEtB;IAEF,OAAO,WAAY,GAAG,UAGpB;CACH;AAED,eAAe,gBAAgB,CAAC"}
