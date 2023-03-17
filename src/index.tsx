@@ -442,9 +442,10 @@ const Core: ShapePropsNApi = ({
           (cur, _, index) => Math.max(cur, index),
           0,
         );
+        const info = stepCached.getCurrent();
         // 最大组号
-        const maxGroupIndex = layers.filter(
-          (layer) => layer.type === 'group' && layer.elementName,
+        const maxGroupIndex = info.filter(
+          (info: Iinfo) => info.type === 'group' && info.elementName,
         );
         const newId = new Date().getTime();
         // 删除索引
