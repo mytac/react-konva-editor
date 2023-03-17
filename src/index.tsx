@@ -442,12 +442,17 @@ const Core: ShapePropsNApi = ({
           (cur, _, index) => Math.max(cur, index),
           0,
         );
+        // 最大组号
+        const maxGroupIndex = layers.filter(
+          (layer) => layer.type === 'group' && layer.elementName,
+        );
         const newId = new Date().getTime();
         // 删除索引
         const group = {
           type: 'group',
           elements: [...layers],
           id: newId,
+          elementName: '组' + (maxGroupIndex.length + 1),
         };
         infos.splice(maxIndex + 1, 0, group);
         // 删除原图层
