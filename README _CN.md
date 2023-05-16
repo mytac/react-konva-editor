@@ -93,6 +93,27 @@ TODO...
 
 23-2-20 支持多选图层，拆组和解组-可配合 toolkit 使用
 
+## Tips
+
+1. 如何开启/关闭多选图层模式？
+
+```tsx
+const handler = useCallback((e: KeyboardEvent) => {
+  if (e.keyCode === 16) {
+    // 开启多选模式
+    KonvaCanvas.toggleMultiSelected(true);
+    store.setMultiSelected(true);
+  }
+}, []);
+
+useEffect(() => {
+  window.addEventListener('keydown', handler);
+  return () => {
+    window.removeEventListener('keydown', handler);
+  };
+}, []);
+```
+
 ## reference
 
 1. [build reference](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c)

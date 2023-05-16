@@ -88,6 +88,27 @@ $ yarn add react-konva-editor
 | quality  | number [0.1-1]              | -        | quality of export image(default is 1)             |
 | fileType | 'image/png' \| 'image/jpeg' | -        | filetype of export image(default is 'image/png' ) |
 
+## Tips
+
+1. How to switch on multi-select Mode?
+
+```tsx
+const handler = useCallback((e: KeyboardEvent) => {
+  if (e.keyCode === 16) {
+    // 开启多选模式
+    KonvaCanvas.toggleMultiSelected(true);
+    store.setMultiSelected(true);
+  }
+}, []);
+
+useEffect(() => {
+  window.addEventListener('keydown', handler);
+  return () => {
+    window.removeEventListener('keydown', handler);
+  };
+}, []);
+```
+
 ## Timeline
 
 23-2-20 支持多选图层，拆组和解组-可配合 toolkit 使用
