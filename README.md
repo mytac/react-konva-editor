@@ -61,7 +61,7 @@ $ yarn add react-konva-editor
 
 ### StepInfo
 
-#### demo
+#### simple demo
 
 ```json
 [
@@ -109,6 +109,8 @@ $ yarn add react-konva-editor
   }
 ]
 ```
+
+![demo](https://s1.ax1x.com/2023/07/25/pCXJyW9.png)
 
 ### ItemProp
 
