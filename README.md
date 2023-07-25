@@ -61,7 +61,7 @@ $ yarn add react-konva-editor
 
 ### StepInfo
 
-#### simple demo
+#### example
 
 ```json
 [
