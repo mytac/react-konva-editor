@@ -59,6 +59,57 @@ $ yarn add react-konva-editor
 | setRedo            | ()=>void                  | -        | A callback when you redo operation                                                                        |
 | onChangeStep       | (Array\<ItemProp> )=>void | √        | A callback when you change anything on canvas,it will return ItemProps which means infomations on canvas  |
 
+### StepInfo
+
+#### demo
+
+```json
+[
+  {
+    "type": "shape",
+    "value": "star",
+    "fill": "red",
+    "id": 1001,
+    "scaleX": 1,
+    "scaleY": 1,
+    "rotation": 0,
+    "skewX": 0,
+    "skewY": 0,
+    "x": 195,
+    "y": 345
+  },
+  {
+    "type": "text",
+    "value": "可定义内外径、角数量",
+    "fontFamily": "默认",
+    "id": 1002,
+    "scaleX": 1.1925926495341033,
+    "scaleY": 1.192592649534104,
+    "rotation": 0,
+    "skewX": 0,
+    "skewY": 0,
+    "x": 63,
+    "y": 168,
+    "fontSize": 25
+  },
+  {
+    "type": "image",
+    "value": "https://image.yonghuivip.com/jimu/1/1638943345035942610",
+    "elementName": "上传人",
+    "id": 1003,
+    "x": 19,
+    "y": 436,
+    "width": 400,
+    "height": 400,
+    "scaleX": 1,
+    "scaleY": 1,
+    "rotation": 0,
+    "skewX": 0,
+    "skewY": 0
+  }
+]
+```
+
 ### ItemProp
 
 ## API
