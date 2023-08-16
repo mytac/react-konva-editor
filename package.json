@@ -1,6 +1,6 @@
 {
   "name": "react-konva-editor",
-  "version": "0.0.2",
+  "version": "0.0.3-alpha",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
   "main": "./index.ts",
@@ -22,6 +22,11 @@
     "type": "git",
     "url": "git+https://github.com/mytac/react-konva-editor.git"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "keywords": [
     "editor",
     "react",
