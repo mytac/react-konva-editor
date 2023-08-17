@@ -54,6 +54,7 @@ export interface IcommonInfo {
   fontSize?: number;
   mType?: number;
   elementName?: string;
+  label?: string; // 元素层名
 }
 
 export interface IimageInfo extends IcommonInfo {

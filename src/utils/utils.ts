@@ -1,4 +1,4 @@
-import { isObject } from 'lodash';
+import { isObject,isString,isNumber } from 'lodash';
 import { Iinfo } from '../type';
 /**
  * canvasInfo中有重复的id，对其进行替换并输出
@@ -9,7 +9,7 @@ const handleDuplicateId = (canvasInfo = []) => {
   return canvasInfo.map((info: any) => {
     if (info) {
       if (info.id && idMap[info.id]) {
-        if (typeof info.id === 'number') {
+        if (isNumber(info.id)) {
           // 重复的值则进行替换
           const newKey: number =
             Number(info.id) + Number((Math.random() * 100).toFixed());
@@ -18,7 +18,7 @@ const handleDuplicateId = (canvasInfo = []) => {
             ...info,
             id: newKey,
           };
-        } else if (typeof info.id === 'string') {
+        } else if (isString(info.id)) {
           const newKey: string = info.id + '_duplicate';
           idMap[newKey] = 1;
           return {
