@@ -18,14 +18,25 @@ const KonvaGroup: FC<IShapeInfo> = ({
   id,
   width = 100,
   height = 30,
+  isNew = false,
   ...props
 }) => {
+  // const ref=useRef<null>
   // 选中态，显示transformer
   useEffect(() => {
     if (isSelected && trRef?.current) {
       trRef.current.nodes([myRef.current]);
     }
   }, [isSelected, trRef, myRef]);
+
+  useEffect(() => {
+    // 新增的组
+    if (isNew) {
+      const width = myRef.current.width;
+      handleInfo({ width, isNew: false });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myRef, isNew]);
 
   const commonProps = {
     id: String(id),
