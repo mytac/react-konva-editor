@@ -6,12 +6,17 @@
     "lib": ["DOM"],
     "declaration": true,
     "emitDeclarationOnly": false,
+    "resolveJsonModule":true,
     "esModuleInterop": true,
+   "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*.js"]
+    },
     "moduleResolution": "node",
     "isolatedModules": true,
     "jsx": "react-jsx",
     "noImplicitAny": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "removeComments": true
   },
