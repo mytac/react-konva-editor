@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import React,{ FC, useEffect } from 'react';
 import { noop } from 'lodash';
 import { Image } from 'react-konva';
 import useImage from 'use-image';

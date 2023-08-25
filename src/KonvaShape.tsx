@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import React,{ FC, useEffect } from 'react';
 import { noop } from 'lodash';
 import { Rect, Circle, Arc, Star, Arrow, Ellipse } from 'react-konva';
 import { IShapeInfo } from './type';
