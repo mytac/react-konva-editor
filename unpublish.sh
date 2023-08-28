@@ -23,7 +23,7 @@ fi
 
 echo "REPO=$REPO"
 
-npm unpublish react-konva-editor@0.1.1-a --force --registry $REPO|| echo "【no need to unpublish】"
+npm unpublish react-konva-editor@0.1.1 --force --registry $REPO|| echo "【no need to unpublish】"
 echo "【unpublish!!】"
 
 echo $n press any key to exit: $c

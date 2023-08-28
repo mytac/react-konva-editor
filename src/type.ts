@@ -127,7 +127,7 @@ export interface IFunc {
   moveLayerLevel: (i: number) => void;
   moveLayer: (direction: string, delta: number) => void;
   clearSelected: () => void;
-  setSelectedIndex: (id: number) => void;
+  setSelectedIndex: (id: LayerIdType) => void;
   toogleLock: (index: number) => void;
   toggleMultiSelected: (state: boolean) => void;
   madeGroup: (layers: any) => void;
@@ -136,3 +136,5 @@ export interface IFunc {
 }
 
 export type Iinfo = IimageInfo | ItextInfo | IShapeInfo | IgroupInfo;
+
+export type LayerIdType = string | number | Array<number | string>;
