@@ -1,40 +1,47 @@
-import { isObject } from 'lodash';
-import { Iinfo } from '../type';
+import _, { isObject } from 'lodash';
+import { Iinfo, IcommonInfo, LayerIdType } from '../type';
+
+const randomId = () => {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const length = 10; // 生成10位的随机字符串
+  const randomChars = _.sampleSize(chars, length);
+  return randomChars.join('');
+};
+
 /**
  * canvasInfo中有重复的id，对其进行替换并输出
+ * TODO: 未进行嵌套组结构适配
  */
-const handleDuplicateId = (canvasInfo = []) => {
+const handleDuplicateId = (canvasInfo: IcommonInfo[] = []) => {
   const idMap: any = {};
 
-  return canvasInfo.map((info: any) => {
-    if (info) {
-      if (info.id && idMap[info.id]) {
-        if (typeof info.id === 'number') {
-          // 重复的值则进行替换
-          const newKey: number =
-            Number(info.id) + Number((Math.random() * 100).toFixed());
-          idMap[newKey] = 1;
-          return {
-            ...info,
-            id: newKey,
-          };
-        } else if (typeof info.id === 'string') {
-          const newKey: string = info.id + '_duplicate';
-          idMap[newKey] = 1;
-          return {
-            ...info,
-            id: newKey,
-          };
-        } else {
-          return {
-            ...info,
-            id: new Date().getTime(),
-          };
-        }
-      } else {
-        idMap[info.id] = 1;
-        return info;
+  /**
+   * 产生独一的key
+   * @param key label或原本的id
+   * @returns keystring
+   */
+  const handleKey = (key: string | number, label?: string) => {
+    const isExisit = !!idMap[key];
+    if (!isExisit) {
+      idMap[key] = 1;
+      return key;
+    } else {
+      if (label) {
+        return idMap[label] ? randomId() : label;
       }
+      return randomId();
+    }
+  };
+
+  return canvasInfo.map((info: IcommonInfo) => {
+    if (info) {
+      // @ts-ignore
+      const { id, label, value, elementName, name } = info;
+      return {
+        ...info,
+        label: label || name || value || elementName,
+        id: handleKey(id, label),
+      };
     }
     return info;
   });
@@ -49,7 +56,7 @@ const downloadURI = (uri: string, name: string) => {
   document.body.removeChild(link);
 };
 
-const isSelectedId = (id: number | Array<number>, layerId: number) => {
+const isSelectedId = (id: LayerIdType, layerId: number) => {
   if (Array.isArray(id)) {
     return id.includes(layerId);
   } else {
