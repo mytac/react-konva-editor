@@ -14,6 +14,8 @@ export interface IaddItem {
   value: string;
 }
 
+export type LayerIdType = string | number | Array<number | string>;
+
 export interface IProps {
   width: number;
   height: number;
@@ -54,6 +56,8 @@ export interface IcommonInfo {
   fontSize?: number;
   mType?: number;
   elementName?: string;
+  label?: string; // 元素层名称
+  name?: string; //psd解析出来的图层名称
 }
 
 export interface IimageInfo extends IcommonInfo {
@@ -128,13 +132,13 @@ export interface IFunc {
   moveLayer: (direction: string, delta: number) => void;
   clearSelected: () => void;
   setSelectedIndex: (id: LayerIdType) => void;
-  toogleLock: (index: number) => void;
+  toogleLock: (id: LayerIdType) => void;
   toggleMultiSelected: (state: boolean) => void;
   madeGroup: (layers: any) => void;
   divideGroup: (groupId: string) => void;
+  changeLayerInfoById: (id: LayerIdType, item: object) => void;
   // getSelectedInfo: () => Iinfo | Array<Iinfo>;
 }
 
 export type Iinfo = IimageInfo | ItextInfo | IShapeInfo | IgroupInfo;
 
-export type LayerIdType = string | number | Array<number | string>;
