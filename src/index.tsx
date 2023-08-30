@@ -75,7 +75,7 @@ const Core: ShapePropsNApi = ({
         const maxId = infos.reduce(
           (prev, info) =>
             isNumber(info.id) ? Math.max(Number(info.id), prev) : prev + 100,
-          0,
+          0
         );
         const newId = isNaN(maxId) || !maxId ? new Date().getTime() : maxId + 1;
         setNewId(newId);
@@ -102,6 +102,18 @@ const Core: ShapePropsNApi = ({
       setSteps(stepCached.getCurrent());
     }
   }, []);
+
+  // 通过id改变图层属性
+  const changeLayerInfoById = useCallback(
+    (id: LayerIdType, item: object) => {
+      const index = steps.findIndex((layer: Iinfo) => layer.id === id);
+      if (~index) {
+        handleInfo(index, item);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedId]
+  );
 
   useEffect(() => {
     if (addItem) {
@@ -132,7 +144,7 @@ const Core: ShapePropsNApi = ({
             const infos = [...stepCached.getCurrent()];
             for (let i = 0; i < needUpdateLayers.length; i++) {
               const index = infos.findIndex(
-                (layer: Iinfo) => layer.id === needUpdateLayers[i]?.id,
+                (layer: Iinfo) => layer.id === needUpdateLayers[i]?.id
               );
               infos[index] = needUpdateLayers[i];
             }
@@ -184,7 +196,7 @@ const Core: ShapePropsNApi = ({
           if (selectedId.includes(steps[i].id)) {
             // @ts-ignore
             indexes.push(steps[i].id);
-            // @ts-ignore
+              // @ts-ignore
             items.push(steps[i]);
           }
         }
@@ -201,7 +213,7 @@ const Core: ShapePropsNApi = ({
         }
       }
     },
-    [selectedId, steps],
+    [selectedId, steps]
   );
 
   const onRef = useCallback(
@@ -224,7 +236,7 @@ const Core: ShapePropsNApi = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bindRef, handleSelectItem, steps],
+    [bindRef, handleSelectItem, steps]
   );
 
   useEffect(() => {
@@ -389,7 +401,7 @@ const Core: ShapePropsNApi = ({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedId, steps],
+    [selectedId, steps]
   );
 
   // 全量更新
@@ -432,7 +444,7 @@ const Core: ShapePropsNApi = ({
         }
       });
     },
-    [handleSelectItem, steps],
+    [handleSelectItem, steps]
   );
 
   // 成组
@@ -443,7 +455,7 @@ const Core: ShapePropsNApi = ({
         // 拿到最大索引，最终group所属层级为最高层
         const maxIndex = layers.reduce(
           (cur, _, index) => Math.max(cur, index),
-          0,
+          0
         );
         const newId = new Date().getTime();
         // 删除索引
@@ -469,7 +481,7 @@ const Core: ShapePropsNApi = ({
         console.log('stepCached.getCurrent()', stepCached.getCurrent());
       }
     },
-    [steps],
+    [steps]
   );
 
   // 拆组
@@ -491,7 +503,7 @@ const Core: ShapePropsNApi = ({
         }
       }
     },
-    [steps],
+    [steps]
   );
 
   useEffect(() => {
@@ -527,8 +539,8 @@ const Core: ShapePropsNApi = ({
   }, [moveLayer]);
 
   useEffect(() => {
-    outerInstance.attach('handleInfo', handleInfo);
-  }, [handleInfo]);
+    outerInstance.attach('changeLayerInfoById', changeLayerInfoById);
+  }, [changeLayerInfoById]);
 
   const renderGroup = (info: Iinfo, idx: number, inGroup: boolean = false) => {
     const { type } = info;
@@ -547,7 +559,7 @@ const Core: ShapePropsNApi = ({
           id={String(info.id)}
         >
           {(info as IgroupInfo)?.elements.map((i: Iinfo, iidx: number) =>
-            renderGroup(i, idx, true),
+            renderGroup(i, idx, true)
           )}
         </KonvaGroup>
       );
@@ -655,13 +667,13 @@ const Core: ShapePropsNApi = ({
                     id={String(info.id)}
                   >
                     {info.elements.map((i: Iinfo, iidx: number) =>
-                      renderGroup(i, idx, true),
+                      renderGroup(i, idx, true)
                     )}
                   </KonvaGroup>
                 ) : (
                   renderGroup(info, idx)
                 )
-              ) : null,
+              ) : null
             )}
         </Layer>
       </Stage>
@@ -675,7 +687,7 @@ Core.exportToImage = (
   options: { scale?: number; quality?: number; fileType?: string } = {
     scale: 1,
     quality: 1,
-  },
+  }
 ) => {
   const { scale = 1, quality = 1, fileType = 'image/png' } = options;
   // 先把Transformer去掉
@@ -858,9 +870,9 @@ Core.divideGroup = (groupId: string) => {
   divideGroup(groupId);
 };
 // 改变某个图层的某个属性
-Core.handleInfo = (index: number, item: object) => {
-  const { handleInfo } = outerInstance.value;
-  handleInfo(index, item);
+Core.changeLayerInfoById = (id: LayerIdType, item: object) => {
+  const { changeLayerInfoById } = outerInstance.value;
+  changeLayerInfoById(id, item);
 };
 
 export default Core;

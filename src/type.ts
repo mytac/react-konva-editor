@@ -118,7 +118,7 @@ export interface ItextInfo extends IcommonInfo {
 export interface IFunc {
   exportToImage: (
     a: string,
-    opt?: { scale?: number; quality?: number; fileType?: string },
+    opt?: { scale?: number; quality?: number; fileType?: string }
   ) => void;
   exportToBASE64: () => Promise<string>;
   exportToFile: (format: string, filename: string) => File | undefined;
@@ -136,7 +136,7 @@ export interface IFunc {
   toggleMultiSelected: (state: boolean) => void;
   madeGroup: (layers: any) => void;
   divideGroup: (groupId: string) => void;
-  handleInfo: (index: number, item: object) => void;
+  changeLayerInfoById: (id: LayerIdType, item: object) => void;
   // getSelectedInfo: () => Iinfo | Array<Iinfo>;
 }
 
