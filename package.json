@@ -3,14 +3,19 @@
   "version": "0.1.1-r17",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
-  "main": "./index.ts",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
   "types": "./index.d.ts",
+  "files": [
+    "libs",
+    "esm"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli": "node ./scripts/index.mjs",
     "build1": "tsc -outDir ./dist  &&  tsc -module commonjs -outDir ./lib",
-    "build2": "tsup ./index.ts",
-    "build": "webpack",
+    "build": "father build",
+    "build3": "webpack",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --fix --ext .js,.ts,jsx,tsx src",
     "dev:release": "./publish.sh -dev",
@@ -61,6 +66,7 @@
     "@types/react": "^17.0.0",
     "babel-loader": "^9.1.3",
     "eslint": "^7.11.0",
+    "father": "4.1.8",
     "filehound": "^1.17.6",
     "prettier": "^2.2.1",
     "webpack": "^5.88.2",
@@ -73,7 +79,7 @@
     ]
   },
   "peerDependencies": {
-   "react": ">=17.0.0",
-   "react-dom": ">=17.0.0"
-}
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  }
 }
