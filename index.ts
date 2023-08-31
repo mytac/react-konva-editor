@@ -7,4 +7,5 @@ export type {
   Iinfo
 } from './src/type'
 
+
 export default Editor;

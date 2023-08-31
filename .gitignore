@@ -7,3 +7,5 @@ types
 .npm_token
 lib
 package-lock.json
+yarn.lock
+esm

@@ -14,7 +14,6 @@ export interface IaddItem {
   value: string;
 }
 
-export type LayerIdType = string | number | Array<number | string>;
 
 export interface IProps {
   width: number;
