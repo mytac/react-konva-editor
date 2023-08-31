@@ -1,13 +1,13 @@
 {
   "name": "react-konva-editor",
-  "version": "0.1.1-r16",
+  "version": "0.1.3-r16",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
-  "main": "./lib/index.js",
+  "main": "./libs/index.js",
   "module": "./esm/index.js",
-  "types": "./index.d.ts",
+  "types": "./lib/index.d.ts",
   "files": [
-    "libs",
+    "lib",
     "esm"
   ],
   "scripts": {
