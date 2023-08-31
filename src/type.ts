@@ -141,3 +141,4 @@ export interface IFunc {
 }
 
 export type Iinfo = IimageInfo | ItextInfo | IShapeInfo | IgroupInfo;
+
