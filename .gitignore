@@ -8,3 +8,4 @@ types
 lib
 esm
 package-lock.json
+.idea
