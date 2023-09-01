@@ -1,16 +1,20 @@
 {
-  "name": "react-konva-editor",
-  "version": "0.1.1",
+  "name": "react-konva-editor-copy",
+  "version": "0.1.2",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
-  "main": "./index.ts",
-  "types": "./index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "esm"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli": "node ./scripts/index.mjs",
     "build1": "tsc -outDir ./dist  &&  tsc -module commonjs -outDir ./lib",
     "build2": "tsup ./index.ts",
-    "build": "webpack",
+    "build": "father build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --fix --ext .js,.ts,jsx,tsx src",
     "dev:release": "./publish.sh -dev",
@@ -50,6 +54,7 @@
     "use-image": "^1.0.8"
   },
   "devDependencies": {
+    "father": "^4.1.8",
     "@babel/core": "^7.22.10",
     "@babel/preset-env": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
