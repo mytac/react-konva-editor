@@ -1,6 +1,6 @@
 {
   "name": "react-konva-editor",
-  "version": "0.1.2",
+  "version": "0.1.7-r16",
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
   "main": "./lib/index.js",
@@ -13,7 +13,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli": "node ./scripts/index.mjs",
     "build1": "tsc -outDir ./dist  &&  tsc -module commonjs -outDir ./lib",
-    "build2": "tsup ./index.ts",
     "build": "father build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --fix --ext .js,.ts,jsx,tsx src",
