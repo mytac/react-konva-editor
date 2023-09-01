@@ -6,4 +6,5 @@ storage
 types
 .npm_token
 lib
+esm
 package-lock.json
