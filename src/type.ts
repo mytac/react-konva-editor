@@ -1,18 +1,14 @@
 import { CSSProperties } from 'react';
+import Konva from 'konva';
 export type itemType = 'image' | 'text' | 'shape' | 'stage' | 'group';
-export type ShapeType =
-  | 'rect'
-  | 'circle'
-  | 'arc'
-  | 'star'
-  | 'arrow'
-  | 'ellipse';
 
 // props
 export interface IaddItem {
   type: itemType;
   value: string;
 }
+
+export type LayerIdType = string | number;
 
 export interface IProps {
   width: number;
@@ -32,7 +28,7 @@ export interface IProps {
 
 // 内部的
 export interface IcommonInfo {
-  id: number;
+  id: LayerIdType;
   type: itemType;
   isSelected?: boolean;
   handleInfo: (a: any) => void;
@@ -54,6 +50,8 @@ export interface IcommonInfo {
   fontSize?: number;
   mType?: number;
   elementName?: string;
+  label?: string; // 元素层名称
+  name?: string; //psd解析出来的图层名称
 }
 
 export interface IimageInfo extends IcommonInfo {
@@ -68,47 +66,85 @@ export interface IimageInfo extends IcommonInfo {
   _isChangedCrop?: boolean;
 }
 
-export interface IShapeInfo extends IcommonInfo {
-  type: 'shape';
-  value: ShapeType;
-  fill?: string;
-  width?: number;
-  height?: number;
-  stroke?: string; // 描边颜色
-  strokeWidth?: number; // 描边宽度
-
-  // 以下为Rect专属
-  cornerRadius?: number | Array<number>;
-
-  // 以下为Circle专属props
-  radius?: number;
-
-  // 以下为arc专属字段
-  innerRadius?: number; // 内径
-  outerRadius?: number; // 外径
-  angle?: number; // 弧形圆角
-
-  // 以下为star专属
-  numPoints?: number;
-
-  // 以下为arrow专属
-  points?: Array<number>;
-
-  // 以下为ellipse专属
-  ellipseRadius?: { radiusX: number; radiusY: number };
-  // pointerLength?: number;
-  // pointerWidth?: number;
+interface IshapeCommon {
+  id: LayerIdType;
 }
+
+interface RectProps extends Konva.RectConfig {}
+interface CircleProps extends Konva.CircleConfig {}
+interface ArcProps extends Konva.ArcConfig {}
+interface StarProps extends Konva.StarConfig {}
+interface ArrowProps extends Konva.ArrowConfig {}
+interface EllipseProps extends Konva.EllipseConfig {}
+
+export type ShapeType =
+  | 'rect'
+  | 'circle'
+  | 'arc'
+  | 'star'
+  | 'arrow'
+  | 'ellipse';
+
+type ShapePropsMap = {
+  rect: RectProps;
+  circle: CircleProps;
+  arc: ArcProps;
+  star: StarProps;
+  arrow: ArrowProps;
+  ellipse: EllipseProps;
+};
+export type IShapeInfo = ShapePropsMap[ShapeType];
+
+// interface Shape extends ShapeProps, Konva.ShapeConfig {
+//   type: ShapeType;
+// }
+
+type Shape<T extends ShapeType> = ShapePropsMap[T] &
+  Konva.ShapeConfig & { type: T };
+
+// export interface IShapeInfo extends IcommonInfo {
+//   type: 'shape';
+//   value: ShapeType;
+//   fill?: string;
+//   width?: number;
+//   height?: number;
+//   stroke?: string; // 描边颜色
+//   strokeWidth?: number; // 描边宽度
+
+//   // 以下为Rect专属
+//   cornerRadius?: number | Array<number>;
+
+//   // 以下为Circle专属props
+//   radius?: number;
+
+//   // 以下为arc专属字段
+//   innerRadius?: number; // 内径
+//   outerRadius?: number; // 外径
+//   angle?: number; // 弧形圆角
+
+//   // 以下为star专属
+//   numPoints?: number;
+
+//   // 以下为arrow专属
+//   points?: Array<number>;
+
+//   // 以下为ellipse专属
+//   ellipseRadius?: { radiusX: number; radiusY: number };
+//   // pointerLength?: number;
+//   // pointerWidth?: number;
+// }
 
 export interface IgroupInfo extends IcommonInfo {
   type: 'group';
-  elements: Array<IimageInfo | ItextInfo>;
+  elements: Array<Iinfo>;
 }
 
 export interface ItextInfo extends IcommonInfo {
   type: 'text';
   value: string;
   color?: 'string';
+  width?: number;
+  height?: number;
 }
 
 export interface IFunc {
@@ -127,11 +163,12 @@ export interface IFunc {
   moveLayerLevel: (i: number) => void;
   moveLayer: (direction: string, delta: number) => void;
   clearSelected: () => void;
-  setSelectedIndex: (id: number) => void;
-  toogleLock: (index: number) => void;
+  setSelectedIndex: (id: LayerIdType) => void;
+  toogleLock: (id: LayerIdType) => void;
   toggleMultiSelected: (state: boolean) => void;
   madeGroup: (layers: any) => void;
   divideGroup: (groupId: string) => void;
+  changeLayerInfoById: (id: LayerIdType, item: object) => void;
   // getSelectedInfo: () => Iinfo | Array<Iinfo>;
 }
 

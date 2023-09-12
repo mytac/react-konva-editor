@@ -11,6 +11,7 @@ const withTransform = (Component: FC) => {
     rotation?: number;
     opacity?: number;
     banDrag?: boolean;
+    resizeEnabled?: boolean;
     type?: 'text' | 'image' | 'group';
   }) => {
     const {
@@ -18,6 +19,7 @@ const withTransform = (Component: FC) => {
       handleInfo = () => {},
       opacity = 1,
       handleSelected,
+      resizeEnabled = true,
       banDrag,
     } = props;
 
@@ -83,6 +85,7 @@ const withTransform = (Component: FC) => {
           draggable={!banDrag}
           trRef={trRef}
           myRef={eleRef}
+          ref={eleRef}
           setShowTransformer={setShowTransformer}
           {...props}
           // @ts-ignore
@@ -92,7 +95,8 @@ const withTransform = (Component: FC) => {
         <Transformer
           ref={trRef}
           boundBoxFunc={boundBoxFunc}
-          resizeEnabled={!banDrag}
+          // banDrag比resizeEnabled优先级高
+          resizeEnabled={banDrag ? false : resizeEnabled}
           rotateEnabled={!banDrag}
           onTransformEnd={(a) => {
             handleInfo(handleKonvaItem(a.target));
