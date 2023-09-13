@@ -22,8 +22,9 @@ else
 fi
 
 echo "REPO=$REPO"
+version=$(jq -r '.version' package.json)
 
-npm unpublish react-konva-editor@0.1.1-r17 --force --registry $REPO|| echo "【no need to unpublish】"
+npm unpublish react-konva-editor@$version --force --registry $REPO|| echo "【no need to unpublish】"
 echo "【unpublish!!】"
 
 echo $n press any key to exit: $c
