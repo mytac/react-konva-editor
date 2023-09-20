@@ -1,10 +1,10 @@
-import { defineConfig } from 'father'
+import { defineConfig } from "father";
 
 export default defineConfig({
   cjs: {
-    output:"lib",
+    output: "lib",
   },
   esm: {
-    output:'esm'
+    output: "esm",
   }
-})
+});
