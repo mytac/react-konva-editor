@@ -23,11 +23,11 @@ fi
 
 echo "REPO=$REPO"
 
-rm -rf ./esm && rm -rf ./lib && yarn build
+rm -rf ./dist && yarn build && cp {package.json,README.md} ./dist/ -r && yarn type
 echo "【copied!】"
 # npm unpublish react-konva-editor@0.0.2 --force --registry $REPO|| echo "【no need to unpublish】"
 # echo "【unpublished successfully!】"
-npm publish --registry $REPO
+cd ./dist && npm publish --registry $REPO
 echo "【published!!】"
 
 echo $n press any key to exit: $c
