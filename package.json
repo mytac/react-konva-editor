@@ -4,7 +4,6 @@
   "author": "mytac",
   "description": "An image editor which is built by konva and react.",
   "main": "./lib/index.js",
-  "module": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
     "lib",
@@ -44,24 +43,23 @@
   },
   "homepage": "https://github.com/mytac/react-konva-editor#readme",
   "dependencies": {
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "konva": "^8.2.3",
     "lodash": "^4.17.21",
-    "react-konva": "16.8.0",
     "tinykeys": "^1.4.0",
-    "typescript": "^4.9.5",
     "use-image": "1.0.8"
   },
   "devDependencies": {
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "@types/lodash": "^4.14.177",
     "@types/node": "^12.0.0",
     "@types/react": "^16.14.0",
     "eslint": "^7.11.0",
     "father": "4.1.8",
     "prettier": "^2.2.1",
-    "react": "^16.14.0"
-
+    "react": "16.14.0",
+    "react-konva": "17.0.2-0",
+    "konva": "8.1.1",
+    "typescript": "^4.9.5"
   },
   "eslintConfig": {
     "extends": [
@@ -71,6 +69,8 @@
   },
   "peerDependencies": {
     "react": ">=16.14.0",
-    "react-dom": ">=16.14.0"
+    "react-dom": ">=16.14.0",
+    "konva": "8.1.1",
+    "react-konva": "17.0.2-0"
   }
 }
